@@ -1,7 +1,6 @@
 package csvToArff;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class Main {
@@ -17,8 +16,7 @@ public class Main {
 		parser.clearEmpties();
 		csv = parser.getCSV();
 		setAttributeKeys();
-		System.out.println(attributes);
-		
+
 	}
 	
 	
@@ -44,6 +42,53 @@ public class Main {
 		
 	}
 	
+	
+
+	public static String typeFinder(ArrayList<String >test){
+		
+		int string = 0;
+		int doub = 0;
+		int integer = 0;
+		int bool = 0;
+		
+		for(String cursor : test){
+			
+			
+			if(cursor.toLowerCase() == "true" || cursor.toLowerCase() == "false"){
+				bool++;
+			}
+			try{
+				Double.valueOf(cursor);
+				doub++;
+			}catch(Exception e){
+				string++;
+			}
+			try{ 
+				Integer.valueOf(cursor);
+				integer++;
+			}catch(Exception e){
+				string++;
+			}
+		
+		}
+		
+		if(bool > 0 && integer == 0 && doub  == 0){
+			return "boolean";
+		}
+		
+		if(integer > 0 && string == 0){
+			return "Integer";
+		}
+		if(doub > 0 && doub == string){ // since the string will be added when the integer is tried the values will be the same 
+			return "double";
+		}
+		else{ 
+			System.out.println(integer);
+			System.out.println(string);
+			return "String";
+		}
+		
+	}
 	
 	
 }
